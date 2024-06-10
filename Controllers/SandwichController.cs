@@ -56,5 +56,21 @@ namespace Sandwich.Controllers
 
             return Ok(sandwiches);
         }
+        
+        [HttpDelete("{sandwichId}")]
+        public IActionResult deleteSandwich(int sandwichId)
+        {
+            SandwichObj sandwichToDelete = _dbContext.Sandwiches.FirstOrDefault(s => s.Id == sandwichId);
+
+            if (sandwichToDelete == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Sandwiches.Remove(sandwichToDelete);
+            _dbContext.SaveChanges();
+
+            return Accepted("Sandwich successfully deleted");
+        }
     }
 }

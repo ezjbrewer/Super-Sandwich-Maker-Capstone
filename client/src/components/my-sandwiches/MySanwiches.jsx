@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
-import { getSandwichesByUserId } from "../../managers/sandwichManager.js";
+import { deleteSandwichById, getSandwichesByUserId } from "../../managers/sandwichManager.js";
 import { Button } from "reactstrap";
 
 export const MySandwiches = ({ loggedInUser }) => {
   const [userSandwiches, setUserSandwiches] = useState([]);
 
   useEffect(() => {
-    getSandwichesByUserId(loggedInUser?.id).then(setUserSandwiches);
+    fetchSandwiches(loggedInUser?.id)
   }, [loggedInUser]);
+  
+  const handleSandwichDeletion = (id) => {
+    deleteSandwichById(id).then(() => {
+        fetchSandwiches(loggedInUser.id);
+    })
+  }
+
+  const fetchSandwiches = (id) => {
+    getSandwichesByUserId(id).then((data) => {
+        setUserSandwiches(data)
+    })
+  }
 
   return (
     <div className="my-sandwich-container">
@@ -29,7 +41,7 @@ export const MySandwiches = ({ loggedInUser }) => {
                   ))}
               </ul>
               <div className="my-sandwich-options">
-                <Button>
+                <Button onClick={() => handleSandwichDeletion(sandwich.id)}>
                     🗑️
                 </Button>
                 <Button>
