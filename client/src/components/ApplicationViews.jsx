@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import { Home } from "./home/Home.jsx";
 import { SandwichScreen } from "./sandwich-screen/SandwichScreen.jsx";
+import { MySandwiches } from "./my-sandwiches/MySanwiches.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -26,6 +27,16 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }  
           />
+        </Route>
+        <Route path="mysandwiches">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <MySandwiches />
+                </AuthorizedRoute>
+              }
+            />
         </Route>
         <Route
           path="login"
