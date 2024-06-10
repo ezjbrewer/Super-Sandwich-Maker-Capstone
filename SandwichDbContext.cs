@@ -9,6 +9,9 @@ public class SandwichDbContext : IdentityDbContext<IdentityUser>
     private readonly IConfiguration _configuration;
 
     public DbSet<UserProfile> UserProfiles { get; set; }
+    public DbSet<SandwichObj> Sandwiches { get; set; }
+    public DbSet<Ingredient> Ingredients { get; set; }
+    public DbSet<SandwichIngredient> SandwichIngredients { get; set; }
 
 
     public SandwichDbContext(DbContextOptions<SandwichDbContext> context, IConfiguration config) : base(context)
@@ -279,7 +282,7 @@ public class SandwichDbContext : IdentityDbContext<IdentityUser>
         });
 
     modelBuilder.Entity<SandwichIngredient>()
-        .HasKey(si => new { si.SandwichId, si.IngredientId });
+    .HasKey(si => new { si.SandwichId, si.IngredientId });
 
     modelBuilder.Entity<SandwichIngredient>()
         .HasOne(si => si.Sandwich)
@@ -290,5 +293,6 @@ public class SandwichDbContext : IdentityDbContext<IdentityUser>
         .HasOne(si => si.Ingredient)
         .WithMany(i => i.SandwichIngredients)
         .HasForeignKey(si => si.IngredientId);
+
     }
 }
