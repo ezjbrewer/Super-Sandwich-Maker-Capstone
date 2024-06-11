@@ -11,6 +11,7 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelecte
     const [breadChoice, setBreadChoice] = useState({});
     const [isVegetarian, setIsVegetarian] = useState(false);
     const [meatChoice, setMeatChoice] = useState([]);
+    const [toppingChoice, setToppingChoice] = useState([]);
     
     useEffect(() => {
         getIngredientsByInput(input).then(setIngredients)
@@ -23,7 +24,7 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelecte
             case 2:
                 return <div>{renderMeatChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, setIsVegetarian, isVegetarian, meatChoice, setMeatChoice})}</div>
             case 3:
-                return <div>{renderToppingChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients})}</div>
+                return <div>{renderToppingChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients, toppingChoice, setToppingChoice, setSelectedView})}</div>
         }
     }
     

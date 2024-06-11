@@ -1,11 +1,47 @@
 import { useState } from "react"
 import { Button, Label } from "reactstrap"
 
-export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients }) => {
-    const [toppingChoices, setToppingChoice] = useState([]);
+export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, toppingChoice, setToppingChoice, setSelectedView }) => {
+    const [toppings, setToppings] = useState([]);
     const [isEmpty, setIsEmpty] = useState(false);
     
+    const noOptionsChosen = "Please select an option to continue";
+
+    const handleToppingChange = (event) => {
+        const selectedTopping = JSON.parse(event.target.value);
     
+        if (event.target.checked) {
+            setToppingChoice([...toppingChoice, selectedTopping]);
+        } else {
+            setToppingChoice(toppingChoice.filter(topping => topping.id !== selectedTopping.id));
+        }
+    }
+
+    const handleToppingSave = () => {
+        if (toppingChoice.length === 0)
+            {
+                setIsEmpty(true)
+                return;
+            }
+
+        const uniqueToppings = toppingChoice.filter((topping) =>
+            !currentSandwich.sandwichIngredients.some(
+                (ingredient) => ingredient.id === topping.id && ingredient.typeId <= 3
+            )
+        );
+
+        setCurrentSandwich((sandwich) => ({
+            ...sandwich,
+            sandwichIngredients: [
+                ...sandwich.sandwichIngredients.filter((ingredient) => ingredient.typeId !== 3 || ingredient.typeId !== 4),
+                ...uniqueToppings,
+            ],
+        }));
+        
+        setIsEmpty(false);
+        setSelectedView(1);
+    }
+
     return(
         <div className="ingredients">
             <h3 className="ingredient-heading">Select your topping choices</h3>
@@ -16,6 +52,9 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
                             <input
                                 type="checkbox"
                                 name="topping"
+                                value={JSON.stringify(i)}
+                                checked={toppingChoice.some(t => t.id == i.id)}
+                                onChange={handleToppingChange}
                             />
                             <Label>
                                 {i.name}
@@ -23,7 +62,7 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
                         </div>
                     )
                 })}
-                <Button>
+                <Button onClick={() => handleToppingSave()}>
                     Add
                 </Button>
             </div>
