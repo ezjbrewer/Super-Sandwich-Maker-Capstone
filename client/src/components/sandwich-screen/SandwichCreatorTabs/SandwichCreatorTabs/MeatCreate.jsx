@@ -5,6 +5,8 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
     const [meats, setMeats] = useState([])
     const [isEmpty, setIsEmpty] = useState(false);
 
+    const noOptionsChosen = "Please select an option to continue";
+
     const handleVegetarianChoice = (event) => {
         setIsVegetarian(event.target.checked)
         if (event.target.checked) {
@@ -20,6 +22,31 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
         } else {
             setMeatChoice(meatChoice.filter(meat => meat.id !== selectedMeat.id));
         }
+    }
+
+    const handleMeatSave = () => {
+        if (meatChoice.length === 0 && !isVegetarian)
+            {
+                setIsEmpty(true)
+                return;
+            }
+
+        const uniqueMeats = meatChoice.filter((meat) =>
+            !currentSandwich.sandwichIngredients.some(
+                (ingredient) => ingredient.id === meat.id && ingredient.typeId === 2
+            )
+        );
+
+        setCurrentSandwich((sandwich) => ({
+            ...sandwich,
+            sandwichIngredients: [
+                ...sandwich.sandwichIngredients.filter((ingredient) => ingredient.typeId !== 2),
+                ...uniqueMeats,
+            ],
+        }));
+        
+        setIsEmpty(false);
+        setInput(3);
     }
     
      return(
@@ -51,10 +78,18 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
                         name="vegetarian"
                     />
                     <Label>
-                        Vegetarian
+                        Vegetarian - No Meat
                     </Label>
                 </div>
-                <Button onClick={() => console.log(meatChoice)}>
+                {isEmpty ?
+                    <div>
+                        {noOptionsChosen}
+                    </div>
+                    :
+                    <div>
+                    </div>
+                }
+                <Button onClick={() => handleMeatSave()}>
                     Add
                 </Button>
             </div>

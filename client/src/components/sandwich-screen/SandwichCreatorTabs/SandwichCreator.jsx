@@ -11,12 +11,7 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelecte
     const [breadChoice, setBreadChoice] = useState({});
     const [isVegetarian, setIsVegetarian] = useState(false);
     const [meatChoice, setMeatChoice] = useState([]);
-
-    useEffect(() => {
-        console.log(meatChoice)
-    }, [meatChoice])
     
-
     useEffect(() => {
         getIngredientsByInput(input).then(setIngredients)
     }, [input])
