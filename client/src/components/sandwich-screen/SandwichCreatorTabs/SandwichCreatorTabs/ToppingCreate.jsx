@@ -2,7 +2,9 @@ import { useState } from "react"
 import { Button, Label } from "reactstrap"
 
 export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients }) => {
-    const [toppingChoices, setToppingChoice] = useState([])
+    const [toppingChoices, setToppingChoice] = useState([]);
+    const [isEmpty, setIsEmpty] = useState(false);
+    
     
     return(
         <div className="ingredients">
@@ -22,7 +24,7 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
                     )
                 })}
                 <Button>
-                    Add Ingredient
+                    Add
                 </Button>
             </div>
         </div>

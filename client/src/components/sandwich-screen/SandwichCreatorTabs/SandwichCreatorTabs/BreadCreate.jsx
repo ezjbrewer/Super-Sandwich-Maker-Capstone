@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Label, Button } from "reactstrap"
 
-export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients }) => {
-    const [breadChoice, setBreadChoice] = useState({});
+export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, breadChoice, setBreadChoice }) => {
+    const [bread, setBread] = useState({});
     const [isEmpty, setEmpty] = useState(false);
 
-    const emptyBreadChoiceMsg = "Um... Bread is required to make a sandwich..."
+    const emptyBreadChoiceMsg = "Bread is required to make a sandwich..."
 
     const handleBreadChoiceSave = () => {
         if (!breadChoice.id) {
@@ -16,6 +16,7 @@ export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, curren
             const updatedIngredients = currentSandwich.sandwichIngredients.filter(i => i.typeId !== 1);
             setCurrentSandwich(sandwich => ({...sandwich, sandwichIngredients: [...updatedIngredients, breadChoice]}));
             setEmpty(false);
+            setInput(2);
         }
     }
 
@@ -30,6 +31,7 @@ export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, curren
                                 type="radio"
                                 name="bread"
                                 onChange={() => {setBreadChoice(i)}}
+                                checked={breadChoice.id === i.id}
                             />
                             <Label>
                                 {i.name}
@@ -45,7 +47,7 @@ export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, curren
                     <div></div>
                 }
                 <Button onClick={() => {handleBreadChoiceSave()}}>
-                    Add Ingredient
+                    Add
                 </Button>
             </div>
         </div>

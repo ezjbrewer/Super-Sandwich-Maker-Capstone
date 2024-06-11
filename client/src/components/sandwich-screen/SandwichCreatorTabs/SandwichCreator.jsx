@@ -5,9 +5,17 @@ import { renderBreadChoices } from "./SandwichCreatorTabs/BreadCreate.jsx";
 import { renderMeatChoices } from "./SandwichCreatorTabs/MeatCreate.jsx";
 import { renderToppingChoices } from "./SandwichCreatorTabs/ToppingCreate.jsx";
 
-export const SandwichCreator = ({currentSandwich, setCurrentSandwich}) => {
+export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelectedView}) => {
     const [currentViewIngredients, setIngredients] = useState([]);
     const [input, setInput] = useState(1);
+    const [breadChoice, setBreadChoice] = useState({});
+    const [isVegetarian, setIsVegetarian] = useState(false);
+    const [meatChoice, setMeatChoice] = useState([]);
+
+    useEffect(() => {
+        console.log(meatChoice)
+    }, [meatChoice])
+    
 
     useEffect(() => {
         getIngredientsByInput(input).then(setIngredients)
@@ -16,11 +24,11 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich}) => {
     const renderIngredients = () => {
         switch(input) {
             case 1:
-                return <div>{renderBreadChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients })}</div>
+                return <div>{renderBreadChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, breadChoice, setBreadChoice})}</div>
             case 2:
-                return <div>{renderMeatChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients })}</div>
+                return <div>{renderMeatChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, setIsVegetarian, isVegetarian, meatChoice, setMeatChoice})}</div>
             case 3:
-                return <div>{renderToppingChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients })}</div>
+                return <div>{renderToppingChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients})}</div>
         }
     }
     

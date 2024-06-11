@@ -1,8 +1,26 @@
 import { useState } from "react"
 import { Button, Label } from "reactstrap"
 
-export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients }) => {
-    const [meatChoice, setMeatChoice] = useState([])
+export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, setIsVegetarian, isVegetarian, meatChoice, setMeatChoice }) => {
+    const [meats, setMeats] = useState([])
+    const [isEmpty, setIsEmpty] = useState(false);
+
+    const handleVegetarianChoice = (event) => {
+        setIsVegetarian(event.target.checked)
+        if (event.target.checked) {
+            setMeatChoice([])
+        }
+    }
+
+    const handleMeatChange = (event) => {
+        const selectedMeat = JSON.parse(event.target.value);
+    
+        if (event.target.checked) {
+            setMeatChoice([...meatChoice, selectedMeat]);
+        } else {
+            setMeatChoice(meatChoice.filter(meat => meat.id !== selectedMeat.id));
+        }
+    }
     
      return(
         <div className="ingredients">
@@ -14,6 +32,10 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
                             <input
                                 type="checkbox"
                                 name="meat"
+                                value={JSON.stringify(i)}
+                                checked={!isVegetarian && meatChoice.some(m => m.id == i.id)}
+                                disabled={isVegetarian}
+                                onChange={handleMeatChange}
                             />
                             <Label>
                                 {i.name}
@@ -21,8 +43,19 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
                         </div>
                     )
                 })}
-                <Button>
-                    Add Ingredient
+                <div key="0">
+                    <input
+                        onChange={handleVegetarianChoice}
+                        type="checkbox"
+                        checked={isVegetarian}
+                        name="vegetarian"
+                    />
+                    <Label>
+                        Vegetarian
+                    </Label>
+                </div>
+                <Button onClick={() => console.log(meatChoice)}>
+                    Add
                 </Button>
             </div>
         </div>
