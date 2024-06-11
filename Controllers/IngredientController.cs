@@ -22,7 +22,7 @@ namespace Sandwich.Controllers
         {
             if (input > 3 || input < 1)
             {
-                return StatusCode(416, "Range not satisfiable.");
+                return StatusCode(416, "Range not satisfiable. Input must be values 1, 2, or 3!");
             }
 
             List<Ingredient> ingredients = new List<Ingredient>();
