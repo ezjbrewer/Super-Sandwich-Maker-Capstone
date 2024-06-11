@@ -3,7 +3,7 @@ import { Label, Button } from "reactstrap"
 
 export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, breadChoice, setBreadChoice }) => {
     const [bread, setBread] = useState({});
-    const [isEmpty, setEmpty] = useState(false);
+    const [isBreadEmpty, setEmpty] = useState(false);
 
     const emptyBreadChoiceMsg = "Bread is required to make a sandwich..."
 
@@ -39,7 +39,7 @@ export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, curren
                         </div>
                     )
                 })}
-                {isEmpty ?
+                {isBreadEmpty ?
                     <div>
                         {emptyBreadChoiceMsg}
                     </div>

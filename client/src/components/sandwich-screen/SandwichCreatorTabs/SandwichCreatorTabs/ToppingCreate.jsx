@@ -3,7 +3,7 @@ import { Button, Label } from "reactstrap"
 
 export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, toppingChoice, setToppingChoice, setSelectedView }) => {
     const [toppings, setToppings] = useState([]);
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [isToppingEmpty, setIsEmpty] = useState(false);
     
     const noOptionsChosen = "Please select an option to continue";
 
@@ -62,6 +62,13 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
                         </div>
                     )
                 })}
+                {isToppingEmpty ?
+                    <div>
+                        {noOptionsChosen}
+                    </div>
+                    :
+                    <div></div>
+                }
                 <Button onClick={() => handleToppingSave()}>
                     Add
                 </Button>

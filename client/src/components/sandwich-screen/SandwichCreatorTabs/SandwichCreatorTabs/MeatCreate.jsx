@@ -3,7 +3,7 @@ import { Button, Label } from "reactstrap"
 
 export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, setIsVegetarian, isVegetarian, meatChoice, setMeatChoice }) => {
     const [meats, setMeats] = useState([])
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [isMeatEmpty, setIsEmpty] = useState(false);
 
     const noOptionsChosen = "Please select an option to continue";
 
@@ -81,7 +81,7 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
                         Vegetarian - No Meat
                     </Label>
                 </div>
-                {isEmpty ?
+                {isMeatEmpty ?
                     <div>
                         {noOptionsChosen}
                     </div>
