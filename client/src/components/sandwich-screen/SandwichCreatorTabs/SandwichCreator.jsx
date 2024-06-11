@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { Button } from "reactstrap"
 import { getIngredientsByInput } from "../../../managers/ingredientManager.js";
+import { renderBreadChoices } from "./SandwichCreatorTabs/BreadCreate.jsx";
+import { renderMeatChoices } from "./SandwichCreatorTabs/MeatCreate.jsx";
+import { renderToppingChoices } from "./SandwichCreatorTabs/ToppingCreate.jsx";
 
 export const SandwichCreator = ({setCurrentSandwich}) => {
-    const [currentlyViewedIngredients, setIngredients] = useState([]);
+    const [currentIngredients, setIngredients] = useState([]);
     const [input, setInput] = useState(1);
 
     useEffect(() => {
@@ -13,11 +16,11 @@ export const SandwichCreator = ({setCurrentSandwich}) => {
     const renderIngredients = () => {
         switch(input) {
             case 1:
-                return <div>Bread</div>
+                return <div>{renderBreadChoices(setCurrentSandwich={setCurrentSandwich}, currentIngredients)}</div>
             case 2:
-                return <div>Meat</div>
+                return <div>{renderMeatChoices(setCurrentSandwich={setCurrentSandwich}, currentIngredients)}</div>
             case 3:
-                return <div>Toppings</div>
+                return <div>{renderToppingChoices(setCurrentSandwich={setCurrentSandwich}, currentIngredients)}</div>
         }
     }
     
