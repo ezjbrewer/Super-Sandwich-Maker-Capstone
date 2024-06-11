@@ -16,7 +16,7 @@ export const SandwichScreen = ({loggedInUser}) => {
             case 1:
                 return <div>{defaultView()}</div>;
             case 2:
-                return <SandwichCreator setCurrentSandwich={setCurrentSandwich} />;
+                return <SandwichCreator currentSandwich={currentSandwich} setCurrentSandwich={setCurrentSandwich} setSelectedView={setSelectedView}/>;
         }
     }
     
