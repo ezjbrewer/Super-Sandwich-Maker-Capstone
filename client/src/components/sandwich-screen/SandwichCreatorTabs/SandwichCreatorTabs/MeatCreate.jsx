@@ -1,7 +1,8 @@
-import { Label } from "reactstrap"
+import { useState } from "react"
+import { Button, Label } from "reactstrap"
 
-export const renderMeatChoices = ({setCurrentSandwich}, currentViewIngredients) => {
-    
+export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients }) => {
+    const [meatChoice, setMeatChoice] = useState([])
     
      return(
         <div className="ingredients">
@@ -20,6 +21,9 @@ export const renderMeatChoices = ({setCurrentSandwich}, currentViewIngredients) 
                         </div>
                     )
                 })}
+                <Button>
+                    Add Ingredient
+                </Button>
             </div>
         </div>
     )

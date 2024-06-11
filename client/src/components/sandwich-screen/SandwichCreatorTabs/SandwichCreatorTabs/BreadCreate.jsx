@@ -1,8 +1,24 @@
-import { Label } from "reactstrap"
+import { useState } from "react"
+import { Label, Button } from "reactstrap"
 
-export const renderBreadChoices = ({setCurrentSandwich}, currentViewIngredients) => {
-    
-    
+export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients }) => {
+    const [breadChoice, setBreadChoice] = useState({});
+    const [isEmpty, setEmpty] = useState(false);
+
+    const emptyBreadChoiceMsg = "Um... Bread is required to make a sandwich..."
+
+    const handleBreadChoiceSave = () => {
+        if (!breadChoice.id) {
+            setEmpty(true)
+            return;
+        }
+        if (!currentSandwich.sandwichIngredients.some(i => i.id === breadChoice.id)) {
+            const updatedIngredients = currentSandwich.sandwichIngredients.filter(i => i.typeId !== 1);
+            setCurrentSandwich(sandwich => ({...sandwich, sandwichIngredients: [...updatedIngredients, breadChoice]}));
+            setEmpty(false);
+        }
+    }
+
     return(
         <div className="ingredients">
             <h3 className="ingredient-heading">Select your bread</h3>
@@ -13,6 +29,7 @@ export const renderBreadChoices = ({setCurrentSandwich}, currentViewIngredients)
                             <input
                                 type="radio"
                                 name="bread"
+                                onChange={() => {setBreadChoice(i)}}
                             />
                             <Label>
                                 {i.name}
@@ -20,6 +37,16 @@ export const renderBreadChoices = ({setCurrentSandwich}, currentViewIngredients)
                         </div>
                     )
                 })}
+                {isEmpty ?
+                    <div>
+                        {emptyBreadChoiceMsg}
+                    </div>
+                    :
+                    <div></div>
+                }
+                <Button onClick={() => {handleBreadChoiceSave()}}>
+                    Add Ingredient
+                </Button>
             </div>
         </div>
     )
