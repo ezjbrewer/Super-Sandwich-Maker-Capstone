@@ -10,13 +10,14 @@ export const SandwichScreen = ({loggedInUser}) => {
         }
     )
     const [selectedView, setSelectedView] = useState(1)
+    const [breadChoice, setBreadChoice] = useState({});
 
     const renderView = () => {
         switch(selectedView) {
             case 1:
                 return <div>{defaultView()}</div>;
             case 2:
-                return <SandwichCreator currentSandwich={currentSandwich} setCurrentSandwich={setCurrentSandwich} setSelectedView={setSelectedView}/>;
+                return <SandwichCreator currentSandwich={currentSandwich} setCurrentSandwich={setCurrentSandwich} setSelectedView={setSelectedView} breadChoice={breadChoice} setBreadChoice={setBreadChoice}/>;
         }
     }
     
@@ -33,18 +34,38 @@ export const SandwichScreen = ({loggedInUser}) => {
                         </div>
                         :
                         <div>
-                            {/* Implement list of ingredients after finishing create a sandwich view */}
+                            <h3>{currentSandwich.sandwichIngredients.find(si => si.typeId === 1)?.name} Sandwich</h3>
+                            <ul>
+                                {currentSandwich.sandwichIngredients
+                                    .filter(si => si?.typeId !== 1)
+                                    .map((s) => (
+                                        <li key={s.id}>{s.name}</li>
+                                ))}
+                            </ul>
+                            <Button onClick={() => setSelectedView(2)}>
+                                Edit Sandwich
+                            </Button>
+                            <Button onClick={() => setCurrentSandwich({customerId: loggedInUser.id, sandwichIngredients: []}, setBreadChoice({}))}>
+                                Delete Sandwich
+                            </Button>
                         </div>
                     }
                 </div>
                 <div className="my-sandwich-price">
                     Total: $0.00
                 </div>
+                {currentSandwich.sandwichIngredients.length === 0 ?
                 <div className="my-sandwich-create">
                     <Button onClick={() => setSelectedView(2)} className="add-ingredient-btn">
                         Add Ingredients
                     </Button>
                 </div>
+                :
+                <div>
+                    <Button>
+                        Save Sandwich
+                    </Button>
+                </div>}
             </div>
         )
     }
