@@ -16,7 +16,14 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
 
     const handleMeatChange = (event) => {
         const selectedMeat = JSON.parse(event.target.value);
-    
+        
+        if (currentSandwich.sandwichIngredients.some(i => i.id == selectedMeat.id)) {
+            const index = currentSandwich.sandwichIngredients.findIndex(i => i.id == selectedMeat.id);
+            if (index > -1) {
+                currentSandwich.sandwichIngredients.splice(index, 1);
+            }
+        }
+
         if (event.target.checked) {
             setMeatChoice([...meatChoice, selectedMeat]);
         } else {
@@ -60,7 +67,7 @@ export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, current
                                 type="checkbox"
                                 name="meat"
                                 value={JSON.stringify(i)}
-                                checked={!isVegetarian && meatChoice.some(m => m.id == i.id)}
+                                checked={!isVegetarian && meatChoice.some(m => m.id == i.id) || currentSandwich.sandwichIngredients.some(m => m.id == i.id)}
                                 disabled={isVegetarian}
                                 onChange={handleMeatChange}
                             />

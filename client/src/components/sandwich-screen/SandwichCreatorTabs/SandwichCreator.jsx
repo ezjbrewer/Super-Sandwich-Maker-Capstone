@@ -5,10 +5,9 @@ import { renderBreadChoices } from "./SandwichCreatorTabs/BreadCreate.jsx";
 import { renderMeatChoices } from "./SandwichCreatorTabs/MeatCreate.jsx";
 import { renderToppingChoices } from "./SandwichCreatorTabs/ToppingCreate.jsx";
 
-export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelectedView}) => {
+export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelectedView, breadChoice, setBreadChoice}) => {
     const [currentViewIngredients, setIngredients] = useState([]);
     const [input, setInput] = useState(1);
-    const [breadChoice, setBreadChoice] = useState({});
     const [isVegetarian, setIsVegetarian] = useState(false);
     const [meatChoice, setMeatChoice] = useState([]);
     const [toppingChoice, setToppingChoice] = useState([]);

@@ -10,6 +10,13 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
     const handleToppingChange = (event) => {
         const selectedTopping = JSON.parse(event.target.value);
     
+        if (currentSandwich.sandwichIngredients.some(i => i.id == selectedTopping.id)) {
+            const index = currentSandwich.sandwichIngredients.findIndex(i => i.id == selectedTopping.id);
+            if (index > -1) {
+                currentSandwich.sandwichIngredients.splice(index, 1);
+            }
+        }
+
         if (event.target.checked) {
             setToppingChoice([...toppingChoice, selectedTopping]);
         } else {
@@ -18,11 +25,10 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
     }
 
     const handleToppingSave = () => {
-        if (toppingChoice.length === 0)
-            {
-                setIsEmpty(true)
-                return;
-            }
+        if (toppingChoice.length === 0) {
+            setIsEmpty(true)
+            return;
+        }
 
         const uniqueToppings = toppingChoice.filter((topping) =>
             !currentSandwich.sandwichIngredients.some(
@@ -53,7 +59,10 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
                                 type="checkbox"
                                 name="topping"
                                 value={JSON.stringify(i)}
-                                checked={toppingChoice.some(t => t.id == i.id)}
+                                checked={
+                                    toppingChoice.some((t) => t.id == i.id) ||
+                                    currentSandwich.sandwichIngredients.some((m) => m.id == i.id)
+                                }
                                 onChange={handleToppingChange}
                             />
                             <Label>
