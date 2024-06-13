@@ -14,5 +14,5 @@ public class Ingredient
     public int Calories { get; set; }
     [Required]
     public int TypeId { get; set; }
-    public List<SandwichIngredient> SandwichIngredients { get; set; }
+    public List<SandwichIngredient>? SandwichIngredients { get; set; }
 }
