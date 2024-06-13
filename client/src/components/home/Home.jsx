@@ -1,5 +1,6 @@
 import { Button } from "reactstrap"
 import { useNavigate } from "react-router-dom";
+import "./Home.css"
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -8,15 +9,15 @@ export const Home = () => {
     const welcomeMsgPart2 = "Fast-forward forty years to today, and they are now bringing their sandwiches to customers digitally. Try from the many different variations upon which a sandwich could be made!";
 
     return(
-        <div>
-            <div className="welcome-info">
+        <div className="home-page">
+            <div className="home-card">
                 {welcomeMsgPart1}
                 <br /><br />
                 {welcomeMsgPart2}
             </div>
-            <div className="create-sandwich-btn-container">
+            <div className="home-btn-card">
                 <div>
-                    <Button onClick={() => navigate("/sandwichscreen")}>
+                    <Button className="home-btn" onClick={() => navigate("/sandwichscreen")}>
                         Make your very own sandwich!
                     </Button>
                 </div>

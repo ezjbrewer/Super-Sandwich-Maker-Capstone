@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Label, Button } from "reactstrap"
+import "./Create.css"
 
 export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, breadChoice, setBreadChoice }) => {
     const [bread, setBread] = useState({});
@@ -46,7 +47,7 @@ export const renderBreadChoices = ({ setCurrentSandwich, currentSandwich, curren
                     :
                     <div></div>
                 }
-                <Button onClick={() => {handleBreadChoiceSave()}}>
+                <Button className="add-btn" onClick={() => {handleBreadChoiceSave()}}>
                     Add
                 </Button>
             </div>

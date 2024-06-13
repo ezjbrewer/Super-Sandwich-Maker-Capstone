@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button, Label } from "reactstrap"
+import "./Create.css"
 
 export const renderMeatChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, setInput, setIsVegetarian, isVegetarian, meatChoice, setMeatChoice }) => {
     const [meats, setMeats] = useState([])
