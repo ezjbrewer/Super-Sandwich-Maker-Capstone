@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Button, Label } from "reactstrap"
+import "./Create.css"
 
 export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, currentViewIngredients, toppingChoice, setToppingChoice, setSelectedView }) => {
     const [toppings, setToppings] = useState([]);
@@ -45,7 +46,6 @@ export const renderToppingChoices = ({ setCurrentSandwich, currentSandwich, curr
         }));
         
         setIsEmpty(false);
-        setSelectedView(1);
     }
 
     return(

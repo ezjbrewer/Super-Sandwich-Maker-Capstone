@@ -1,0 +1,70 @@
+.my-sandwich-heading {
+    text-decoration: underline;
+}
+
+.my-sandwich-price {
+    border-top: 3.5px solid black;
+    width: fit-content;
+}
+
+.my-sandwich-container {
+    padding: 25px;
+}
+
+.add-ingredient-btn{
+    border: 2px solid black;
+    border-radius: 25%;
+    width: 200px;
+    height: 200px;
+    background-color: cornflowerblue;
+}
+
+.price-add-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.sandwich-create-view {
+    padding: 25px;
+    display: flex;
+    justify-content: space-between
+}
+
+.tab-container {
+    padding: 20px;
+    height: 100vh;
+    border: 3.5px solid black;
+    display: flex;
+    justify-content: center;
+}
+
+.tab-options {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    align-items: center;
+}
+
+.complete-sandwich-btn-container {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    align-items: center;
+}
+
+.ingredients-container {
+    border: 3.5 solid black;
+}
+
+.sandwich-display {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.tab-btn {
+    width: 90%;
+    background-color: cornflowerblue;
+}

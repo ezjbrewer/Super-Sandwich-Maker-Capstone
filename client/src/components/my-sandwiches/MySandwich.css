@@ -1,0 +1,30 @@
+.sandwich {
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+}
+
+.my-sandwich-options {
+    display: flex;
+    height: fit-content;
+}
+
+.btn {
+    border: none;
+    margin: 0px 5px;
+}
+
+.total-amount {
+    display: flex;
+    margin-top: 100px;
+    border-top: 3.5px solid black;
+    width: fit-content;
+}
+
+.my-sandwich-container {
+    padding: 25px;
+}
+
+.my-sandwich-lists {
+    margin-top: 20px;
+}

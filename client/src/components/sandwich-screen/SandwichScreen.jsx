@@ -3,6 +3,7 @@ import { Button } from "reactstrap"
 import { SandwichCreator } from "./SandwichCreatorTabs/SandwichCreator.jsx"
 import { getSandwichById, postSandwich, updateSandwich } from "../../managers/sandwichManager.js"
 import { useNavigate } from "react-router-dom"
+import "./Sandwich.css"
 
 export const handleEditSandwichFromSandwich = (id) => {
     sandwichIdVar = id;
@@ -98,7 +99,7 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
     
     const defaultView = () => {
         return(
-            <div>
+            <div className="my-sandwich-container">
                 <div className="my-sandwich-heading">
                     <h2>My Sandwich</h2>
                 </div>
@@ -130,21 +131,24 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
                         </div>
                     }
                 </div>
-                <div className="my-sandwich-price">
-                    {price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                <div className="price-add-btns">
+                    <div className="my-sandwich-price">
+                        Total {price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                    </div>
+                    {currentSandwich.sandwichIngredients.length === 0 ?
+                    <div className="my-sandwich-create">
+                        <Button
+                        onClick={() => setSelectedView(2)} className="add-ingredient-btn">
+                            Add Ingredients
+                        </Button>
+                    </div>
+                    :
+                    <div>
+                        <Button onClick={() => handleSaveSandwich()}>
+                            Save Sandwich
+                        </Button>
+                    </div>}
                 </div>
-                {currentSandwich.sandwichIngredients.length === 0 ?
-                <div className="my-sandwich-create">
-                    <Button onClick={() => setSelectedView(2)} className="add-ingredient-btn">
-                        Add Ingredients
-                    </Button>
-                </div>
-                :
-                <div>
-                    <Button onClick={() => handleSaveSandwich()}>
-                        Save Sandwich
-                    </Button>
-                </div>}
             </div>
         )
     }

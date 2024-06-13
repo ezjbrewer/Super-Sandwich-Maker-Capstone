@@ -4,7 +4,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import { Home } from "./home/Home.jsx";
 import { SandwichScreen } from "./sandwich-screen/SandwichScreen.jsx";
-import { MySandwiches } from "./my-sandwiches/MySanwiches.jsx";
+import { MySandwiches } from "./my-sandwiches/MySandwiches.jsx";
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (

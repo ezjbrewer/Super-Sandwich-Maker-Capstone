@@ -11,6 +11,7 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelecte
     const [isVegetarian, setIsVegetarian] = useState(false);
     const [meatChoice, setMeatChoice] = useState([]);
     const [toppingChoice, setToppingChoice] = useState([]);
+    const [fieldEmpty, setFieldEmpty] = useState(false);
     
     useEffect(() => {
         getIngredientsByInput(input).then(setIngredients)
@@ -33,23 +34,37 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelecte
                 return <div>{renderToppingChoices({ setCurrentSandwich, currentSandwich, currentViewIngredients, toppingChoice, setToppingChoice, setSelectedView})}</div>
         }
     }
+
+    const handleCompleteSandwich = () => {
+        const hasBread = currentSandwich.sandwichIngredients.some(s => s.typeId === 1);
+        const hasTopping = currentSandwich.sandwichIngredients.some(s => s.typeId === 3 || s.typeId === 4);
+    
+        if (!hasBread || !hasTopping) {
+            setFieldEmpty(true);
+        } else {
+            setFieldEmpty(false);
+            setSelectedView(1);
+        }
+    }
     
     return(
         <div className="sandwich-create-view">
             <div className="tab-container">
                 <div className="tab-options">
-                    <Button onClick={() => setInput(1)}>
+                    <Button style={{margin: '10px 0px'}} className="tab-btn" onClick={() => setInput(1)}>
                         Bread
                     </Button>
-                    <Button onClick={() => setInput(2)}>
+                    <Button style={{margin: '10px 0px'}} className="tab-btn" onClick={() => setInput(2)}>
                         Meats
                     </Button>
-                    <Button onClick={() => setInput(3)}>
+                    <Button style={{margin: '10px 0px'}} className="tab-btn" onClick={() => setInput(3)}>
                         Toppings
                     </Button>
-                </div>
-                <div className="complete-sandwich-btn-container">
-                    <Button>
+                    {fieldEmpty ?
+                    <div>Fill out required forms</div>
+                    :
+                    <div></div>}
+                    <Button onClick={() => handleCompleteSandwich()} style={{margin: '400px 0px'}} className="tab-btn">
                         Complete Sandwich
                     </Button>
                 </div>
@@ -57,8 +72,32 @@ export const SandwichCreator = ({currentSandwich, setCurrentSandwich, setSelecte
             <div className="ingredients-container">
                 {renderIngredients()}
             </div>
-            <div className="sandwich-display-container">
-
+            <div>
+                <div className="sandwich-display" style={{ border: '3.5px solid black' }}>
+                    <div className="bread-display">
+                        Bread: {
+                            currentSandwich.sandwichIngredients.some(si => si?.typeId === 1) ?
+                            currentSandwich.sandwichIngredients.find(si => si.typeId === 1)?.name :
+                            "None"
+                        }
+                    </div>
+                    <div className="meat-display">
+                        Meat: {
+                            currentSandwich.sandwichIngredients.some(si => si?.typeId === 2) ?
+                            currentSandwich.sandwichIngredients.filter(si => si.typeId === 2)
+                            .map((s) => `${s.name}, `) :
+                            "None"
+                        }
+                    </div>
+                    <div className="topping-display">
+                        Topping: {
+                            currentSandwich.sandwichIngredients.some(si => si?.typeId >= 3) ?
+                            currentSandwich.sandwichIngredients.filter(si => si.typeId >= 3)
+                            .map((s) => `${s.name}, `) :
+                            "None"
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     )

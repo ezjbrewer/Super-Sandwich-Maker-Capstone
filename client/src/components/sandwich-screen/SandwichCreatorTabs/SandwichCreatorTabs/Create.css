@@ -1,0 +1,10 @@
+.ingredients {
+    border: 3.5px solid black;
+    width: 500px;
+    padding: 25px;
+    height: 100vh;
+}
+
+.add-btn {
+    text-align: center;
+}
