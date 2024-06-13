@@ -81,11 +81,12 @@ namespace Sandwich.Controllers
                 return BadRequest("Ingredients are required.");
             }
 
+            
             SandwichObj newSandwich = new SandwichObj
             {
                 CustomerId = sandwich.CustomerId 
             };
-            
+
             _dbContext.Sandwiches.Add(newSandwich);
             _dbContext.SaveChanges();
 
@@ -99,18 +100,23 @@ namespace Sandwich.Controllers
             _dbContext.SandwichIngredients.AddRange(newSandwichIngredients);
             _dbContext.SaveChanges();
 
+            foreach (var ingredient in sandwich.Ingredients)
+            {
+                newSandwich.SandwichIngredients.Add(new SandwichIngredient
+                {
+                    SandwichId = newSandwich.Id,
+                    IngredientId = ingredient.Id
+                });
+            }
+
+            List<SandwichIngredient> sandwichIngredients = _dbContext.SandwichIngredients
+                                    .Include(si => si.Ingredient)
+                                    .Where(si => si.SandwichId == sandwich.Id)
+                                    .ToList();
+
+            newSandwich.SandwichIngredients = sandwichIngredients;
+
             return Ok(newSandwich);
-        }
-
-        [HttpPost]
-        public IActionResult PostSandwichIngredients(List<SandwichIngredient> sandwichIngredientsToAdd)
-        {
-            sandwichIngredientsToAdd.ForEach(si => si.Sandwich = null);
-
-            _dbContext.SandwichIngredients.AddRange(sandwichIngredientsToAdd);
-            _dbContext.SaveChanges();
-
-            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -147,15 +153,28 @@ namespace Sandwich.Controllers
                 return NotFound("Sandwich not found.");
             }
 
-            existingSandwich.SandwichIngredients.Clear();
+            var existingIngredientIds = existingSandwich.SandwichIngredients
+                .Select(si => si.IngredientId)
+                .ToList();
+
+            foreach (var existingIngredient in existingSandwich.SandwichIngredients.ToList())
+            {
+                if (!updatedSandwich.Ingredients.Any(i => i.Id == existingIngredient.IngredientId))
+                {
+                    _dbContext.SandwichIngredients.Remove(existingIngredient);
+                }
+            }
 
             foreach (var ingredient in updatedSandwich.Ingredients)
             {
-                existingSandwich.SandwichIngredients.Add(new SandwichIngredient
+                if (!existingIngredientIds.Contains(ingredient.Id))
                 {
-                    SandwichId = existingSandwich.Id,
-                    IngredientId = ingredient.Id
-                });
+                    existingSandwich.SandwichIngredients.Add(new SandwichIngredient
+                    {
+                        SandwichId = existingSandwich.Id,
+                        IngredientId = ingredient.Id
+                    });
+                }
             }
 
             _dbContext.SaveChanges();
@@ -163,9 +182,9 @@ namespace Sandwich.Controllers
             existingSandwich = _dbContext.Sandwiches
                 .Include(s => s.SandwichIngredients)
                     .ThenInclude(si => si.Ingredient)
-                .FirstOrDefault(s => s.Id == sandwichId);
+                .FirstOrDefault(s => s.Id == existingSandwich.Id);
 
             return Ok(existingSandwich);
-                }
         }
+    }
 }

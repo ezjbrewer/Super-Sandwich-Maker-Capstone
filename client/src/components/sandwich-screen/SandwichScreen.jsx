@@ -20,7 +20,7 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
     )
     const [selectedView, setSelectedView] = useState(1);
     const [breadChoice, setBreadChoice] = useState({});
-    const [noBread, setNoBread] = useState(false);
+    const [price, setPrice] = useState(0.00)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,6 +30,15 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
             });
         }
     }, [sandwichIdVar]);
+
+    useEffect(() => {
+        let totalPrice = 0.00;
+        currentSandwich?.sandwichIngredients.forEach((si) => {
+            totalPrice += si?.price
+        })
+        
+        setPrice(totalPrice);
+    }, [currentSandwich])
 
     const editSandwichPlacement = (data) => {
         const breadIngredient = data.sandwichIngredients.find((si) => si.ingredient.typeId === 1);
@@ -46,7 +55,7 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
             case 1:
                 return <div>{defaultView()}</div>;
             case 2:
-                return <SandwichCreator currentSandwich={currentSandwich} setCurrentSandwich={setCurrentSandwich} setSelectedView={setSelectedView} breadChoice={breadChoice} setBreadChoice={setBreadChoice}/>;
+                return <SandwichCreator currentSandwich={currentSandwich} setCurrentSandwich={setCurrentSandwich} setSelectedView={setSelectedView} breadChoice={breadChoice} setBreadChoice={setBreadChoice} sandwichIdVar={sandwichIdVar}/>;
         }
     }
 
@@ -81,6 +90,7 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
     const handleUpdateSandwich = (sandwichObj) => {
         sandwichObj.id = sandwichIdVar;
         updateSandwich(sandwichObj).then(() => {
+            sandwichIdVar = 0;
             navigate("/mysandwiches");
             return;
         })
@@ -110,14 +120,18 @@ export const SandwichScreen = ({loggedInUser}, editId) => {
                             <Button onClick={() => setSelectedView(2)}>
                                 Edit Sandwich
                             </Button>
-                            <Button onClick={() => setCurrentSandwich({customerId: loggedInUser.id, sandwichIngredients: []}, setBreadChoice({}))}>
-                                Delete Sandwich
-                            </Button>
+                            {sandwichIdVar === 0 ?
+                                <Button onClick={() => setCurrentSandwich({customerId: loggedInUser.id, sandwichIngredients: []}, setBreadChoice({}), console.log(sandwichIdVar))}>
+                                    Delete Sandwich
+                                </Button>
+                            :
+                                <div></div>
+                            }
                         </div>
                     }
                 </div>
                 <div className="my-sandwich-price">
-                    Total: $0.00
+                    {price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </div>
                 {currentSandwich.sandwichIngredients.length === 0 ?
                 <div className="my-sandwich-create">
