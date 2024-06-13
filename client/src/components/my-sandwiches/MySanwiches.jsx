@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { deleteSandwichById, getSandwichesByUserId } from "../../managers/sandwichManager.js";
 import { Button } from "reactstrap";
+import { useNavigate } from "react-router-dom";
+import { handleEditSandwichFromSandwich } from "../sandwich-screen/SandwichScreen.jsx";
 
 export const MySandwiches = ({ loggedInUser }) => {
   const [userSandwiches, setUserSandwiches] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSandwiches(loggedInUser?.id)
@@ -19,6 +22,11 @@ export const MySandwiches = ({ loggedInUser }) => {
     getSandwichesByUserId(id).then((data) => {
         setUserSandwiches(data)
     })
+  }
+
+  const handleSandwichUpdateNav = (id) => {
+    navigate("/sandwichscreen")
+    handleEditSandwichFromSandwich(id)
   }
 
   return (
@@ -44,7 +52,7 @@ export const MySandwiches = ({ loggedInUser }) => {
                 <Button onClick={() => handleSandwichDeletion(sandwich.id)}>
                     🗑️
                 </Button>
-                <Button>
+                <Button onClick={() => handleSandwichUpdateNav(sandwich.id)}>
                     ✏️
                 </Button>
               </div>

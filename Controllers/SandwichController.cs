@@ -58,7 +58,7 @@ namespace Sandwich.Controllers
         }
         
         [HttpDelete("{sandwichId}")]
-        public IActionResult deleteSandwich(int sandwichId)
+        public IActionResult DeleteSandwich(int sandwichId)
         {
             SandwichObj sandwichToDelete = _dbContext.Sandwiches.FirstOrDefault(s => s.Id == sandwichId);
 
@@ -72,5 +72,100 @@ namespace Sandwich.Controllers
 
             return Accepted("Sandwich successfully deleted");
         }
-    }
+
+        [HttpPost("/api/Sandwich/post")]
+        public IActionResult PostSandwich([FromBody] SandwichObj sandwich)
+        {
+            if (sandwich.Ingredients == null || !sandwich.Ingredients.Any())
+            {
+                return BadRequest("Ingredients are required.");
+            }
+
+            SandwichObj newSandwich = new SandwichObj
+            {
+                CustomerId = sandwich.CustomerId 
+            };
+            
+            _dbContext.Sandwiches.Add(newSandwich);
+            _dbContext.SaveChanges();
+
+            List<SandwichIngredient> newSandwichIngredients = sandwich.Ingredients.Select(i => new SandwichIngredient
+            {
+                SandwichId = newSandwich.Id,
+                IngredientId = i.Id,
+            })
+            .ToList();
+
+            _dbContext.SandwichIngredients.AddRange(newSandwichIngredients);
+            _dbContext.SaveChanges();
+
+            return Ok(newSandwich);
+        }
+
+        [HttpPost]
+        public IActionResult PostSandwichIngredients(List<SandwichIngredient> sandwichIngredientsToAdd)
+        {
+            sandwichIngredientsToAdd.ForEach(si => si.Sandwich = null);
+
+            _dbContext.SandwichIngredients.AddRange(sandwichIngredientsToAdd);
+            _dbContext.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetSandwichById(int id)
+        {
+            SandwichObj sandwich = _dbContext.Sandwiches.FirstOrDefault(s => s.Id == id);
+
+            if (sandwich == null)
+            {
+                return NotFound("Sandwich not found!");
+            }
+
+            sandwich.SandwichIngredients = _dbContext.SandwichIngredients.Include(si => si.Ingredient).Where(si => si.SandwichId == id).ToList();
+            
+            return Ok(sandwich);
+        }
+
+        [HttpPut("{sandwichId}")]
+        public IActionResult UpdateSandwich(int sandwichId, [FromBody] SandwichObj updatedSandwich)
+        {
+
+            if (sandwichId != updatedSandwich.Id)
+            {
+                return BadRequest("Mismatch between sandwichId in the URL and in the request body.");
+            }
+
+            SandwichObj existingSandwich = _dbContext.Sandwiches
+                .Include(s => s.SandwichIngredients)
+                    .ThenInclude(si => si.Ingredient)
+                .FirstOrDefault(s => s.Id == sandwichId);
+
+            if (existingSandwich == null)
+            {
+                return NotFound("Sandwich not found.");
+            }
+
+            existingSandwich.SandwichIngredients.Clear();
+
+            foreach (var ingredient in updatedSandwich.Ingredients)
+            {
+                existingSandwich.SandwichIngredients.Add(new SandwichIngredient
+                {
+                    SandwichId = existingSandwich.Id,
+                    IngredientId = ingredient.Id
+                });
+            }
+
+            _dbContext.SaveChanges();
+
+            existingSandwich = _dbContext.Sandwiches
+                .Include(s => s.SandwichIngredients)
+                    .ThenInclude(si => si.Ingredient)
+                .FirstOrDefault(s => s.Id == sandwichId);
+
+            return Ok(existingSandwich);
+                }
+        }
 }

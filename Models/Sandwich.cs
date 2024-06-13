@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Sandwich.Models
@@ -10,20 +11,26 @@ namespace Sandwich.Models
         
         [Required]
         public int CustomerId { get; set; }
-        public UserProfile Customer { get; set; }
-        public List<SandwichIngredient> SandwichIngredients { get; set; }
+        public UserProfile? Customer { get; set; }
+        
+        public List<SandwichIngredient>? SandwichIngredients { get; set; }
 
         [NotMapped]
-        public double Price
+        public double? Price
         {
             get
             {
-                return Math.Round(SandwichIngredients?.Sum(si => si.Ingredient.Price) ?? 0, 2);
+                // Check if SandwichIngredients is null
+                if (SandwichIngredients == null)
+                    return null;
+
+                // Calculate the total price
+                return Math.Round(SandwichIngredients.Sum(si => si.Ingredient.Price), 2);
             }
         }
 
         [NotMapped]
-        public int TotalCalories
+        public int? TotalCalories
         {
             get
             {
@@ -31,13 +38,7 @@ namespace Sandwich.Models
             }
         }
 
-        [NotMapped]
-        public List<Ingredient> Ingredients
-        {
-            get
-            {
-                return SandwichIngredients?.Select(si => si.Ingredient).ToList();
-            }
-        }
+        [JsonPropertyName("Ingredients")]
+        public List<Ingredient>? Ingredients { get; set; }
     }
 }

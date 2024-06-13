@@ -289,8 +289,6 @@ public class SandwichDbContext : IdentityDbContext<IdentityUser>
     new SandwichIngredient { Id = 80, SandwichId = 20, IngredientId = 14 }
 });
 
-
-
     modelBuilder.Entity<SandwichIngredient>()
     .HasKey(si => new { si.SandwichId, si.IngredientId });
 
@@ -303,6 +301,8 @@ public class SandwichDbContext : IdentityDbContext<IdentityUser>
         .HasOne(si => si.Ingredient)
         .WithMany(i => i.SandwichIngredients)
         .HasForeignKey(si => si.IngredientId);
-
+    modelBuilder.Entity<SandwichIngredient>()
+        .Property(si => si.Id)
+        .ValueGeneratedOnAdd();
     }
 }

@@ -12,3 +12,27 @@ export const deleteSandwichById = (sandwichId) => {
         }
     })
 }
+
+export const postSandwich = (sandwichObj) => {
+    return fetch(`${apiUrl}/post`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sandwichObj)
+    }).then((res) => res.json());
+}
+
+export const getSandwichById = (id) => {
+    return fetch(`${apiUrl}/${id}`).then((res) => res.json());
+}
+
+export const updateSandwich = (sandwichObj) => {
+    return fetch(`${apiUrl}/${sandwichObj.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sandwichObj)
+    }).then((res) => res.json());
+    }
