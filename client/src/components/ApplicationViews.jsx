@@ -28,7 +28,7 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
             }  
           />
         </Route>
-        <Route path="mysandwiches">
+        <Route path="/mysandwiches">
             <Route
               index
               element={
