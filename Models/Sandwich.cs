@@ -12,6 +12,10 @@ namespace Sandwich.Models
         [Required]
         public int CustomerId { get; set; }
         public UserProfile? Customer { get; set; }
+
+        [Required]
+        public int OrderId { get; set; }
+        public Order? Order { get; set; }
         
         public List<SandwichIngredient>? SandwichIngredients { get; set; }
 

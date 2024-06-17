@@ -38,6 +38,11 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
                       My Sandwiches
                     </NavLink>
                   </NavItem>
+                  <NavItem>
+                    <NavLink tag={RRNavLink} to="/contactus">
+                      Contact Us
+                    </NavLink>
+                  </NavItem>
               </Nav>
             </Collapse>
             <Button

@@ -17,7 +17,7 @@ export const Home = () => {
             </div>
             <div className="home-btn-card">
                 <div>
-                    <Button className="home-btn" onClick={() => navigate("/sandwichscreen")}>
+                    <Button style={{ border: '3.5px solid black' }} className="home-btn" onClick={() => navigate("/sandwichscreen")}>
                         Make your very own sandwich!
                     </Button>
                 </div>
