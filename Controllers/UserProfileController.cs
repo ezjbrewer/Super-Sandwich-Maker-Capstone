@@ -20,14 +20,14 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpGet]
-    // [Authorize]
+    [Authorize]
     public IActionResult Get()
     {
         return Ok(_dbContext.UserProfiles.ToList());
     }
 
     [HttpGet("withroles")]
-    // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public IActionResult GetWithRoles()
     {
         return Ok(_dbContext.UserProfiles
@@ -62,7 +62,6 @@ public class UserProfileController : ControllerBase
     }
 
     [HttpPost("demote/{id}")]
-    // [Authorize(Roles = "Admin")]
     public IActionResult Demote(string id)
     {
         IdentityRole role = _dbContext.Roles
@@ -79,7 +78,7 @@ public class UserProfileController : ControllerBase
         return NoContent();
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {

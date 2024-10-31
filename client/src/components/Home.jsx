@@ -1,6 +1,7 @@
-import { Button } from "reactstrap"
+import { Button, Card } from "reactstrap"
 import { useNavigate } from "react-router-dom";
-import "./Home.css"
+
+import "./Main.css"
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -10,15 +11,18 @@ export const Home = () => {
 
     return(
         <div className="home-page">
-            <div className="home-card">
+            <Card className="home-card">
                 {welcomeMsgPart1}
                 <br /><br />
                 {welcomeMsgPart2}
-            </div>
+            </Card>
             <div className="home-btn-card">
                 <div>
-                    <Button style={{ border: '3.5px solid black' }} className="home-btn" onClick={() => navigate("/sandwichscreen")}>
-                        Make your very own sandwich!
+                    <Button
+                        color="warning"
+                        className="home-btn"
+                        onClick={() => navigate("/order")}>
+                        Make an order!
                     </Button>
                 </div>
             </div>

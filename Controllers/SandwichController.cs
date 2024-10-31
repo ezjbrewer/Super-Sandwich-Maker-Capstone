@@ -48,7 +48,7 @@ namespace Sandwich.Controllers
                             Name = si.Ingredient.Name,
                             Price = si.Ingredient.Price,
                             Calories = si.Ingredient.Calories,
-                            TypeId = si.Ingredient.TypeId
+                            TypeId = si.Ingredient.TypeId,
                         }
                     }).ToList()
                 })
@@ -80,11 +80,11 @@ namespace Sandwich.Controllers
             {
                 return BadRequest("Ingredients are required.");
             }
-
             
             SandwichObj newSandwich = new SandwichObj
             {
-                CustomerId = sandwich.CustomerId 
+                CustomerId = sandwich.CustomerId,
+                OrderId = sandwich.OrderId 
             };
 
             _dbContext.Sandwiches.Add(newSandwich);
@@ -111,12 +111,15 @@ namespace Sandwich.Controllers
 
             List<SandwichIngredient> sandwichIngredients = _dbContext.SandwichIngredients
                                     .Include(si => si.Ingredient)
+                                        .ThenInclude(i => i.Type)
                                     .Where(si => si.SandwichId == sandwich.Id)
                                     .ToList();
 
             newSandwich.SandwichIngredients = sandwichIngredients;
 
-            return Ok(newSandwich);
+            var sandwichVM = newSandwich.ToViewModel();
+
+            return Ok(sandwichVM);
         }
 
         [HttpGet("{id}")]
