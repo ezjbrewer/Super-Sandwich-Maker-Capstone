@@ -8,7 +8,6 @@ export default function Register({ setLoggedInUser }) {
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const [imageLocation, setImageLocation] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -29,7 +28,6 @@ export default function Register({ setLoggedInUser }) {
         userName,
         email,
         password,
-        imageLocation: imageLocation || null,
       };
       register(newUser).then((user) => {
         if (user.errors) {
@@ -86,16 +84,6 @@ export default function Register({ setLoggedInUser }) {
         />
       </FormGroup>
       <FormGroup>
-        <Label>Image URL</Label>
-        <Input
-          type="text"
-          value={imageLocation}
-          onChange={(e) => {
-            setImageLocation(e.target.value);
-          }}
-        />
-      </FormGroup>
-      <FormGroup>
         <Label>Password</Label>
         <Input
           invalid={passwordMismatch}
@@ -120,11 +108,11 @@ export default function Register({ setLoggedInUser }) {
         />
         <FormFeedback>Passwords do not match!</FormFeedback>
       </FormGroup>
-      {errors.map((e, i) => (
+      {/* {errors.map((e, i) => (
         <p key={i} style={{ color: "red" }}>
           {e}
         </p>
-      ))}
+      ))} */}
       <Button
         color="primary"
         onClick={handleSubmit}

@@ -78,7 +78,6 @@ public class AuthController : ControllerBase
 
     [HttpGet]
     [Route("logout")]
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public IActionResult Logout()
     {
         try
@@ -96,7 +95,8 @@ public class AuthController : ControllerBase
     [Authorize]
     public IActionResult Me()
     {
-        var identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        string identityUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        // var identityUserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f";
         var profile = _dbContext.UserProfiles.SingleOrDefault(up => up.IdentityUserId == identityUserId);
         var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
         if (profile != null)

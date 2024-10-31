@@ -7,5 +7,6 @@ public class IngredientDTO
     public double Price { get; set; }
     public int Calories { get; set; }
     public int TypeId { get; set; }
-    public List<SandwichIngredientDTO> SandwichIngredients { get; set;}
+    public TypeDTO? Type { get; set; }
+    public List<SandwichIngredientDTO>? SandwichIngredients { get; set;}
 }

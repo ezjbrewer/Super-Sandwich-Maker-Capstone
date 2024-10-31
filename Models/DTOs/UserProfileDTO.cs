@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Sandwich.Models.DTOs;
 
-public class USerProfileDTO
+public class UserProfileDTO
 {
     public int Id { get; set; }
     public string FirstName { get; set; }

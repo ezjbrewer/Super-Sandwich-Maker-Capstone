@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
 namespace Sandwich.Models;
 public class Ingredient
@@ -14,5 +12,6 @@ public class Ingredient
     public int Calories { get; set; }
     [Required]
     public int TypeId { get; set; }
+    public TypeObj? Type { get; set; }
     public List<SandwichIngredient>? SandwichIngredients { get; set; }
 }
