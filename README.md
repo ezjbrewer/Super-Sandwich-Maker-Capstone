@@ -15,7 +15,7 @@ Super Sandwich Makers is a full-stack ordering based app. Aiming to design to st
 - CSS
 - C#
 - .NET
-- SQL
+- PostgreSQL
 
 ### Setup
 
