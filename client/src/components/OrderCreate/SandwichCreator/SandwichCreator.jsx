@@ -34,21 +34,12 @@ export const SandwichCreator = ({ setView, sandwichArr, setSandwichArr, loggedIn
     }, [breadChoice, toppingChoice])
 
     useEffect(() => {
-        let totalMeatCalories = 0
-        let totalToppingCalories = 0
-        
-        meatChoice.forEach((meat) => {
-            totalMeatCalories += meat.calories
-        })
-
-        toppingChoice.forEach((topping) => {
-            totalToppingCalories += topping.calories
-        })
-        
-        const totalCalories = breadChoice.calories + totalMeatCalories + totalToppingCalories
-        setCalories(totalCalories)
-
-    }, [breadChoice, meatChoice, toppingChoice])
+        const totalCalories = breadChoice.calories 
+            + meatChoice.reduce((sum, meat) => sum + meat.calories, 0)
+            + toppingChoice.reduce((sum, topping) => sum + topping.calories, 0);
+    
+        setCalories(totalCalories);
+    }, [breadChoice, meatChoice, toppingChoice]);
 
     const toggleModal = () => setModal(!modal);
 
